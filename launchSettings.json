@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "king.carrier.apigateway": "StartDebugging",
+        "king.carrier.accountingapi": "StartDebugging",
+        "king.carrier.ticketsapi": "StartDebugging"
+      }
+    }
+  }
+}

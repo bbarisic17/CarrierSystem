@@ -1,0 +1,6 @@
+@King.Carrier.ApiGateway_HostAddress = http://localhost:5231
+
+GET {{King.Carrier.ApiGateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
