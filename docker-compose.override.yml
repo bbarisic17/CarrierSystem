@@ -1,41 +1,70 @@
 version: '3.4'
 
 services:
-  king.carrier.apigateway:
-    image: ${DOCKER_REGISTRY-}kingcarrierapigateway
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:5766
-    expose:
-      - 5766
+  consul:
+    image: consul:1.14.4
+    container_name: consul
     ports:
-      - 5766:5766
-    build:
-      context: .
-      dockerfile: King.Carrier.ApiGateway/Dockerfile
-  king.carrier.accountingapi:
-    image: ${DOCKER_REGISTRY-}kingcarrieraccountingapi
+      - "8500:8500" 
+      - "8600:8600/udp"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sql.server.db;Database=app_mosi_db;User Id=sa;Password=5uper5trongPa55w0rd!;TrustServerCertificate=true
-      - ASPNETCORE_URLS=http://+:5866
-    expose:
-      - 5866
-    ports:
-      - 5866:5866
-    build:
-      context: .
-      dockerfile: King.Carrier.AccountingApi/Dockerfile
-  king.carrier.ticketsapi:
-    image: ${DOCKER_REGISTRY-}kingcarrierticketsapi
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sql.server.db;Database=app_mosi_db;User Id=sa;Password=5uper5trongPa55w0rd!;TrustServerCertificate=true
-      - ASPNETCORE_URLS=http://+:5966
-    expose:
-      - 5966
-    ports:
-      - 5966:5966
-    build:
-      context: .
-      dockerfile: King.Carrier.TicketsApi/Dockerfile
+      - CONSUL_BIND_INTERFACE=eth0
+    command: agent -dev -client=0.0.0.0
+    networks:
+      - carrier-network
+
+  # king.carrier.apigateway:
+  #   image: ${DOCKER_REGISTRY-}kingcarrierapigateway
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #     - ASPNETCORE_URLS=http://+:5766
+  #     - CONSUL_HTTP_ADDR=http://consul:8500
+  #   expose:
+  #     - 5766
+  #   ports:
+  #     - 5766:5766
+  #   build:
+  #     context: .
+  #     dockerfile: King.Carrier.ApiGateway/Dockerfile
+  #   networks:
+  #     - carrier-network
+
+  # king.carrier.accountingapi:
+  #   image: ${DOCKER_REGISTRY-}kingcarrieraccountingapi
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #     - ConnectionStrings__DefaultConnection=Server=sqlserverdb;Database=accounting_db;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=true
+  #     - ASPNETCORE_URLS=http://+:5866
+  #     - CONSUL_HTTP_ADDR=http://consul:8500
+  #   expose:
+  #     - 5866
+  #   ports:
+  #     - 5866:5866
+  #   build:
+  #     context: .
+  #     dockerfile: King.Carrier.AccountingApi/Dockerfile
+  #   networks:
+  #     - carrier-network
+
+  # king.carrier.ticketsapi:
+  #   image: ${DOCKER_REGISTRY-}kingcarrierticketsapi
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #     - ConnectionStrings__DefaultConnection=Server=sqlserverdb;Database=app_mosi_db;User Id=sa;Password=5uper5trongPa55w0rd!;TrustServerCertificate=true
+  #     - ASPNETCORE_URLS=http://+:5966
+  #     - CONSUL_HTTP_ADDR=http://consul:8500
+  #   expose:
+  #     - 5966
+  #   ports:
+  #     - 5966:5966
+  #   build:
+  #     context: .
+  #     dockerfile: King.Carrier.TicketsApi/Dockerfile
+  #   networks:
+  #     - carrier-network
+networks:
+  carrier-network:
+    driver: bridge
+volumes:
+  redis-data:
+  sql_server_volume:

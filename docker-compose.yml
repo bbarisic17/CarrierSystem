@@ -1,11 +1,72 @@
 version: '3.4'
 
 services:
+  sql:
+    container_name: sql
+    image: mcr.microsoft.com/mssql/server:latest
+    ports:
+      - "1430:1433"
+    environment:
+      # SA_USERNAME: "sa"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"  
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+    networks:
+      - carrier-network
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"   # RabbitMQ port
+      - "15672:15672" # RabbitMQ management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - carrier-network
+  consul:
+    image: consul:latest
+    container_name: consul
+    ports:
+      - "8500:8500" 
+      - "8600:8600/udp"
+    environment:
+      - CONSUL_BIND_INTERFACE=eth0
+    command: agent -dev -client=0.0.0.0
+    networks:
+      - carrier-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - carrier-network
+    restart: unless-stopped
+
+  redisinsight:
+    image: redislabs/redisinsight:latest
+    container_name: redisinsight
+    ports:
+      - "5540:5540"
+    depends_on:
+      - redis
+    networks:
+      - carrier-network
+    restart: unless-stopped
+
   king.carrier.apigateway:
     image: ${DOCKER_REGISTRY-}kingcarrierapigateway
+    container_name: apigateway
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5766
+      - CONSUL_HTTP_ADDR=http://consul:8500
     expose:
       - 5766
     ports:
@@ -13,12 +74,23 @@ services:
     build:
       context: .
       dockerfile: King.Carrier.ApiGateway/Dockerfile
+    depends_on:
+      consul:
+        condition: service_started
+    networks:
+      - carrier-network
+
   king.carrier.accountingapi:
     image: ${DOCKER_REGISTRY-}kingcarrieraccountingapi
+    container_name: accountingapi
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sql.server.db;Database=app_mosi_db;User Id=sa;Password=5uper5trongPa55w0rd!;TrustServerCertificate=true
+      - ConnectionStrings__DefaultConnection=Server=sql;Database=accounting_db;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=true
       - ASPNETCORE_URLS=http://+:5866
+      - CONSUL_HTTP_ADDR=http://consul:8500
+      - SERVICE_NAME=accountingapi
+      - SERVICE_PORT=5866
+      - SERVICE_ADDRESS=accountingapi
     expose:
       - 5866
     ports:
@@ -26,12 +98,27 @@ services:
     build:
       context: .
       dockerfile: King.Carrier.AccountingApi/Dockerfile
+    depends_on:
+      consul:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+      sql:
+        condition: service_started
+    networks:
+      - carrier-network
+
   king.carrier.ticketsapi:
     image: ${DOCKER_REGISTRY-}kingcarrierticketsapi
+    container_name: ticketsapi
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sql.server.db;Database=app_mosi_db;User Id=sa;Password=5uper5trongPa55w0rd!;TrustServerCertificate=true
+      - ConnectionStrings__DefaultConnection=Server=sql;Database=tickets_db;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=true
       - ASPNETCORE_URLS=http://+:5966
+      - CONSUL_HTTP_ADDR=http://consul:8500
+      - SERVICE_NAME=ticketsapi
+      - SERVICE_PORT=5966
+      - SERVICE_ADDRESS=ticketsapi
     expose:
       - 5966
     ports:
@@ -39,3 +126,19 @@ services:
     build:
       context: .
       dockerfile: King.Carrier.TicketsApi/Dockerfile
+    depends_on:
+      consul:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+      sql:
+        condition: service_started
+    networks:
+      - carrier-network
+
+volumes:
+  redis-data:
+  sqlserverdata:
+networks:
+  carrier-network:
+    driver: bridge

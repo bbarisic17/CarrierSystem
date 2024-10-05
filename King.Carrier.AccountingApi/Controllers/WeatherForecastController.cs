@@ -3,22 +3,25 @@ using Microsoft.AspNetCore.Mvc;
 namespace King.Carrier.AccountingApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IHttpContextAccessor _context;
+
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IHttpContextAccessor context)
         {
             _logger = logger;
+            _context=context;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -28,6 +31,14 @@ namespace King.Carrier.AccountingApi.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet("healthcheck")]
+        public IActionResult Healthcheck()
+        {
+            var msg = $"{_context.HttpContext.Request.Host} is healthy";
+            _logger.LogInformation(msg);
+            return Ok(msg);
         }
     }
 }
