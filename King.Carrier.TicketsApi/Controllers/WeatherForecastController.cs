@@ -11,7 +11,6 @@ namespace King.Carrier.TicketsApi.Controllers
     {
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IHttpContextAccessor _context;
-        private readonly TicketPublisher _ticketsPublisher;
 
         private static readonly string[] Summaries = new[]
         {
@@ -19,11 +18,10 @@ namespace King.Carrier.TicketsApi.Controllers
         };
 
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IHttpContextAccessor context, TicketPublisher ticketPublisher)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IHttpContextAccessor context)
         {
             _logger = logger;
             _context=context;
-            _ticketsPublisher=ticketPublisher;
         }
 
         [HttpGet]
@@ -46,17 +44,17 @@ namespace King.Carrier.TicketsApi.Controllers
             return Ok(msg);
         }
 
-        [HttpPost("publishTicket")]
-        public async Task<IActionResult> PublishTicket(int price, string ticketNumber)
-        {
-            var ticketMessage = new TicketMessage
-            {
-                Price = price,
-                TicketNumber = ticketNumber
-            };
+        //[HttpPost("publishTicket")]
+        //public async Task<IActionResult> PublishTicket(int price, string ticketNumber)
+        //{
+        //    var ticketMessage = new TicketMessage
+        //    {
+        //        Price = price,
+        //        TicketNumber = ticketNumber
+        //    };
 
-            _ticketsPublisher.SendMessage(ticketMessage);
-            return Ok();
-        }
+        //    _ticketsPublisher.SendMessage(ticketMessage);
+        //    return Ok();
+        //}
     }
 }
