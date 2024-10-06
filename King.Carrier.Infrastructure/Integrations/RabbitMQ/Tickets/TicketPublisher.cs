@@ -1,11 +1,12 @@
-﻿using King.Carrier.TicketsApplication.Integrations.TicketsApi.RabbitMq;
+﻿using King.Carrier.TicketsApplication.Integrations.RabbitMQ.Tickets;
+using King.Carrier.TicketsApplication.Integrations.TicketsApi.RabbitMq;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;
 
 namespace King.Carrier.TicketsInfrastructure.Integrations.RabbitMQ.Tickets;
 
-public class TicketPublisher : IDisposable
+public class TicketPublisher : ITicketsPublisher, IDisposable
 {
     private readonly IConnection _connection;
     private readonly IModel _channel;
@@ -34,7 +35,7 @@ public class TicketPublisher : IDisposable
         _rabbitMqSetupService=rabbitMqSetupService;
     }
 
-    public void SendMessage(TicketMessage message)
+    public async Task<bool> SendMessage(TicketMessage message)
     {
         var messageSerialized = JsonSerializer.Serialize(message);
         var body = Encoding.UTF8.GetBytes(messageSerialized);
@@ -48,6 +49,8 @@ public class TicketPublisher : IDisposable
                               routingKey: "ticket",
                               basicProperties: null,
                               body: body);
+
+        return true;
     }
 
     public void Dispose()

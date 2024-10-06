@@ -4,5 +4,5 @@ namespace King.Carrier.TicketsApplication.Integrations.RabbitMQ.Tickets;
 
 public interface ITicketsPublisher
 {
-    Task<bool> Publish(TicketMessage ticketMessage);
+    Task<bool> SendMessage(TicketMessage ticketMessage);
 }

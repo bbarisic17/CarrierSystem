@@ -60,6 +60,16 @@ services:
       - carrier-network
     restart: unless-stopped
 
+  seq:
+    image: datalust/seq
+    container_name: seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - "5341:80"
+    networks:
+      - carrier-network
+
   king.carrier.apigateway:
     image: ${DOCKER_REGISTRY-}kingcarrierapigateway
     container_name: apigateway
@@ -76,6 +86,8 @@ services:
       dockerfile: King.Carrier.ApiGateway/Dockerfile
     depends_on:
       consul:
+        condition: service_started
+      seq:
         condition: service_started
     networks:
       - carrier-network
@@ -105,6 +117,8 @@ services:
         condition: service_started
       sql:
         condition: service_started
+      seq:
+        condition: service_started
     networks:
       - carrier-network
 
@@ -132,6 +146,8 @@ services:
       rabbitmq:
         condition: service_started
       sql:
+        condition: service_started
+      seq:
         condition: service_started
     networks:
       - carrier-network

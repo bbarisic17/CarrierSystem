@@ -2,8 +2,8 @@
 using Consul;
 using King.Carrier.AccountingInfrastructure.Consul;
 using King.Carrier.AccountingInfrastructure.Integrations.TicketsApi.RabbitMq;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Serilog.Sinks.Seq;
 using ZiggyCreatures.Caching.Fusion;
 using King.Carrier.AccountingInfrastructure.Persistence;
 
@@ -26,7 +26,8 @@ namespace King.Carrier.AccountingApi
             builder.Host.UseSerilog((context, services, configuration) => configuration
                 .ReadFrom.Configuration(context.Configuration) // Read from appsettings.json
                 .Enrich.FromLogContext()
-                .WriteTo.Console() // Add any other sinks here
+                .WriteTo.Console()
+                .WriteTo.Seq("http://seq:5341")// Add any other sinks here
             );
 
             builder.Services.AddFusionCache()
@@ -54,6 +55,8 @@ namespace King.Carrier.AccountingApi
             builder.Services.AddHostedService<TicketsApiConsumer>();
 
             builder.Services.AddPersistence(builder.Configuration);
+
+            Log.Logger.Information("AccountingApi is starting...");
 
             var app = builder.Build();
             await app.MigrateDatabase();

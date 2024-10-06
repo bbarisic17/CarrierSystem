@@ -1,4 +1,4 @@
-﻿using King.Carrier.AccountingDomain.Receipts;
+﻿using King.Carrier.AccountingDomain.Entities.Receipts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

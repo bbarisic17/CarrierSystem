@@ -1,5 +1,5 @@
 ﻿using System;
-namespace King.Carrier.AccountingDomain.Receipts;
+namespace King.Carrier.AccountingDomain.Entities.Receipts;
 
 public class Receipt
 {
