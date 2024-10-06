@@ -6,4 +6,5 @@ public class Receipt
     public int Id { get; set; }
     public string SerialNumber { get; set; } = default!;
     public DateTime CreatedTimestamp { get; set; }
+    public decimal Price { get; set; }
 }

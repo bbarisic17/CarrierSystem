@@ -17,5 +17,9 @@ public class ReceiptConfiguration : IEntityTypeConfiguration<Receipt>
 
         entity.Property(e => e.CreatedTimestamp)
             .IsRequired();
+
+        entity.Property(e => e.Price)
+            .HasColumnType("decimal(10,2)")
+            .IsRequired();
     }
 }
