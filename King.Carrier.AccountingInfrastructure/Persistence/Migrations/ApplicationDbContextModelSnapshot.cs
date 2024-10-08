@@ -38,7 +38,7 @@ namespace King.Carrier.AccountingInfrastructure.Persistence.Migrations
 
                     b.Property<string>("SerialNumber")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 

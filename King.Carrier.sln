@@ -17,17 +17,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Carrier.ApiGateway", "
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{CD6C503E-C2BA-4A4F-87C3-876483441B9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Carrier.TicketsApplication", "King.Carrier.Application\King.Carrier.TicketsApplication.csproj", "{AB8E168D-54EE-46D4-94DE-D004C05D59BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Carrier.TicketsApplication", "King.Carrier.Application\King.Carrier.TicketsApplication.csproj", "{AB8E168D-54EE-46D4-94DE-D004C05D59BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Carrier.TicketsDomain", "King.Carrier.Domain\King.Carrier.TicketsDomain.csproj", "{013718BA-E754-444F-B4A5-FE80182AE822}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Carrier.TicketsDomain", "King.Carrier.Domain\King.Carrier.TicketsDomain.csproj", "{013718BA-E754-444F-B4A5-FE80182AE822}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Carrier.TicketsInfrastructure", "King.Carrier.Infrastructure\King.Carrier.TicketsInfrastructure.csproj", "{9128A2CF-639A-472F-B3F6-39698CA69F96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Carrier.TicketsInfrastructure", "King.Carrier.Infrastructure\King.Carrier.TicketsInfrastructure.csproj", "{9128A2CF-639A-472F-B3F6-39698CA69F96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Carrier.AccountingApplication", "King.Carrier.Accounting.Application\King.Carrier.AccountingApplication.csproj", "{A5614C5F-5913-4471-856B-300731409FD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Carrier.AccountingApplication", "King.Carrier.Accounting.Application\King.Carrier.AccountingApplication.csproj", "{A5614C5F-5913-4471-856B-300731409FD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Carrier.AccountingDomain", "King.Carrier.AccountingDomain\King.Carrier.AccountingDomain.csproj", "{B9F85DFA-AB27-45F5-B7C4-E3D916080202}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Carrier.AccountingDomain", "King.Carrier.AccountingDomain\King.Carrier.AccountingDomain.csproj", "{B9F85DFA-AB27-45F5-B7C4-E3D916080202}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Carrier.AccountingInfrastructure", "King.Carrier.AccountingInfrastructure\King.Carrier.AccountingInfrastructure.csproj", "{FC68BD55-DB52-43E5-8BAE-1504187BA7D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "King.Carrier.AccountingInfrastructure", "King.Carrier.AccountingInfrastructure\King.Carrier.AccountingInfrastructure.csproj", "{FC68BD55-DB52-43E5-8BAE-1504187BA7D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TicketsB2B", "TicketsB2B", "{EE4288C2-12BD-4A7D-B75D-6E9DC1D4DF76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Carrier.TicketsB2BDomain", "King.Carrier.TicketsB2BDomain\King.Carrier.TicketsB2BDomain.csproj", "{3CA89B40-525D-4A50-B412-E457DFE370B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Carrier.TicketsB2BApplication", "King.Carrier.TicketsB2BApplication\King.Carrier.TicketsB2BApplication.csproj", "{53077072-AAEF-4258-8C95-1A9D2F56DD7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Carrier.TicketsB2BInfrastructure", "King.Carrier.TicketsB2BInfrastructure\King.Carrier.TicketsB2BInfrastructure.csproj", "{472DC6A4-7FE1-4351-864B-5C73366B4387}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "King.Carrier.TicketsB2BApi", "King.Carrier.TicketsB2BApi\King.Carrier.TicketsB2BApi.csproj", "{D70D3154-4094-4AD0-A22F-F4013BB59660}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +85,22 @@ Global
 		{FC68BD55-DB52-43E5-8BAE-1504187BA7D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC68BD55-DB52-43E5-8BAE-1504187BA7D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC68BD55-DB52-43E5-8BAE-1504187BA7D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CA89B40-525D-4A50-B412-E457DFE370B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CA89B40-525D-4A50-B412-E457DFE370B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CA89B40-525D-4A50-B412-E457DFE370B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CA89B40-525D-4A50-B412-E457DFE370B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53077072-AAEF-4258-8C95-1A9D2F56DD7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53077072-AAEF-4258-8C95-1A9D2F56DD7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53077072-AAEF-4258-8C95-1A9D2F56DD7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53077072-AAEF-4258-8C95-1A9D2F56DD7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{472DC6A4-7FE1-4351-864B-5C73366B4387}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{472DC6A4-7FE1-4351-864B-5C73366B4387}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{472DC6A4-7FE1-4351-864B-5C73366B4387}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{472DC6A4-7FE1-4351-864B-5C73366B4387}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D70D3154-4094-4AD0-A22F-F4013BB59660}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D70D3154-4094-4AD0-A22F-F4013BB59660}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D70D3154-4094-4AD0-A22F-F4013BB59660}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D70D3154-4094-4AD0-A22F-F4013BB59660}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +115,10 @@ Global
 		{A5614C5F-5913-4471-856B-300731409FD4} = {8747B667-A7C2-46B6-835A-CB5520FC480C}
 		{B9F85DFA-AB27-45F5-B7C4-E3D916080202} = {8747B667-A7C2-46B6-835A-CB5520FC480C}
 		{FC68BD55-DB52-43E5-8BAE-1504187BA7D9} = {8747B667-A7C2-46B6-835A-CB5520FC480C}
+		{3CA89B40-525D-4A50-B412-E457DFE370B9} = {EE4288C2-12BD-4A7D-B75D-6E9DC1D4DF76}
+		{53077072-AAEF-4258-8C95-1A9D2F56DD7D} = {EE4288C2-12BD-4A7D-B75D-6E9DC1D4DF76}
+		{472DC6A4-7FE1-4351-864B-5C73366B4387} = {EE4288C2-12BD-4A7D-B75D-6E9DC1D4DF76}
+		{D70D3154-4094-4AD0-A22F-F4013BB59660} = {EE4288C2-12BD-4A7D-B75D-6E9DC1D4DF76}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA93359A-3714-45E1-8BC6-FD6CBED2FEF4}

@@ -13,7 +13,7 @@ namespace King.Carrier.TicketsInfrastructure.Persistence.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "EndLocation",
                 table: "Tickets",
-                type: "nvarchar(max)",
+                type: "nvarchar(150)",
                 nullable: false,
                 defaultValue: "");
 
@@ -27,7 +27,7 @@ namespace King.Carrier.TicketsInfrastructure.Persistence.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "StartLocation",
                 table: "Tickets",
-                type: "nvarchar(max)",
+                type: "nvarchar(150)",
                 nullable: false,
                 defaultValue: "");
         }

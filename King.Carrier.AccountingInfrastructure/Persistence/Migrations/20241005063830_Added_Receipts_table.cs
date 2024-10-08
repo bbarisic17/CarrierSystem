@@ -17,7 +17,7 @@ namespace King.Carrier.AccountingInfrastructure.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SerialNumber = table.Column<string>(type: "nvarchar(150)", nullable: false),
                     CreatedTimestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>

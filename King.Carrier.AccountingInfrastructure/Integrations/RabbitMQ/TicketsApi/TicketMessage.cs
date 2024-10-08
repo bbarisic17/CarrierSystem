@@ -1,4 +1,4 @@
-﻿namespace King.Carrier.AccountingInfrastructure.Integrations.TicketsApi.RabbitMq;
+﻿namespace King.Carrier.AccountingInfrastructure.Integrations.RabbitMQ.TicketsApi;
 
 public class TicketMessage
 {

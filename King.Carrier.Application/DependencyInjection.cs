@@ -11,7 +11,6 @@ public static class DependencyInjection
     {
         var executingAssembly = Assembly.GetExecutingAssembly();
 
-        // AddMediatR
         services
             .AddMediatR(cfg => cfg.RegisterServicesFromAssembly(executingAssembly))
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>))

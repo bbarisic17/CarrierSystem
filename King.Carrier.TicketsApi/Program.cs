@@ -16,6 +16,11 @@ namespace King.Carrier.TicketsApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Configuration
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+                    .AddEnvironmentVariables();  // Add environment variables
+
             // Add services to the container.
 
             builder.Services.AddControllers();

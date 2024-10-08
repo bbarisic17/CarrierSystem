@@ -1,11 +1,8 @@
-
-using Consul;
-using King.Carrier.AccountingInfrastructure.Consul;
-using King.Carrier.AccountingInfrastructure.Integrations.TicketsApi.RabbitMq;
 using Serilog;
-using Serilog.Sinks.Seq;
-using ZiggyCreatures.Caching.Fusion;
 using King.Carrier.AccountingInfrastructure.Persistence;
+using King.Carrier.AccountingApplication;
+using King.Carrier.AccountingInfrastructure.Integrations.RabbitMQ.TicketsApi;
+using King.Carrier.AccountingInfrastructure;
 
 namespace King.Carrier.AccountingApi
 {
@@ -15,6 +12,11 @@ namespace King.Carrier.AccountingApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Configuration
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+                    .AddEnvironmentVariables();  // Add environment variables
+
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -23,38 +25,41 @@ namespace King.Carrier.AccountingApi
             builder.Services.AddSwaggerGen();
             builder.Services.AddHttpContextAccessor();
 
-            builder.Host.UseSerilog((context, services, configuration) => configuration
-                .ReadFrom.Configuration(context.Configuration) // Read from appsettings.json
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .WriteTo.Seq("http://seq:5341")// Add any other sinks here
-            );
+            builder.Services.AddApplication();
+            builder.Services.AddInfrastructure(builder.Configuration);
 
-            builder.Services.AddFusionCache()
-            .WithDefaultEntryOptions(new FusionCacheEntryOptions
-            {
-                Duration = TimeSpan.FromMinutes(2),
-                IsFailSafeEnabled = true,
-                FailSafeMaxDuration = TimeSpan.FromHours(1)
-            });
+            //builder.Host.UseSerilog((context, services, configuration) => configuration
+            //    .ReadFrom.Configuration(context.Configuration) // Read from appsettings.json
+            //    .Enrich.FromLogContext()
+            //    .WriteTo.Console()
+            //    .WriteTo.Seq("http://seq:5341")// Add any other sinks here
+            //);
 
-            builder.Services.AddFusionCacheMemoryBackplane();
-            builder.Services.AddFusionCacheStackExchangeRedisBackplane(options =>
-            {
-                options.Configuration = "redis:6379";  // Redis connection string
-            });
+            //builder.Services.AddFusionCache()
+            //.WithDefaultEntryOptions(new FusionCacheEntryOptions
+            //{
+            //    Duration = TimeSpan.FromMinutes(2),
+            //    IsFailSafeEnabled = true,
+            //    FailSafeMaxDuration = TimeSpan.FromHours(1)
+            //});
+
+            //builder.Services.AddFusionCacheMemoryBackplane();
+            //builder.Services.AddFusionCacheStackExchangeRedisBackplane(options =>
+            //{
+            //    options.Configuration = "redis:6379";  // Redis connection string
+            //});
 
             //napravit da se ovo automatski registrira
             //koristiti konfiguracije
-            builder.Services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
-            {
-                consulConfig.Address = new Uri("http://consul:8500");
-            }));
+            //builder.Services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
+            //{
+            //    consulConfig.Address = new Uri("http://consul:8500");
+            //}));
 
-            builder.Services.AddHostedService<ConsulRegistrationHostedService>();
-            builder.Services.AddHostedService<TicketsApiConsumer>();
+            //builder.Services.AddHostedService<ConsulRegistrationHostedService>();
+            //builder.Services.AddHostedService<TicketsApiConsumer>();
 
-            builder.Services.AddPersistence(builder.Configuration);
+            //builder.Services.AddPersistence(builder.Configuration);
 
             Log.Logger.Information("AccountingApi is starting...");
 

@@ -1,0 +1,6 @@
+@King.Carrier.TicketsB2BApi_HostAddress = http://localhost:5094
+
+GET {{King.Carrier.TicketsB2BApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

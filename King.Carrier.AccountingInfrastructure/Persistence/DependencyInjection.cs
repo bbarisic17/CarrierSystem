@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using King.Carrier.AccountingApplication.Persistence;
 
 namespace King.Carrier.AccountingInfrastructure.Persistence;
 
@@ -15,6 +16,8 @@ public static class DependencyInjection
                 b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
             });
         });
+
+        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
         return services;
     }
