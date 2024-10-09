@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using ZiggyCreatures.Caching.Fusion;
 
-namespace King.Carrier.AccountingInfrastructure.Integrations.Redis;
+namespace King.Carrier.TicketsInfrastructure.Integrations.Redis;
 
 public static class DependencyInjection
 {

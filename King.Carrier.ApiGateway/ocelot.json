@@ -7,7 +7,7 @@
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
-      "UpstreamPathTemplate": "/gat/tic/{everything}",
+      "UpstreamPathTemplate": "/gateway/tickets/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "UseServiceDiscovery": true,
       "RouteIsCaseSensitive": false,
@@ -24,7 +24,7 @@
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
-      "UpstreamPathTemplate": "/gat/acc/{everything}",
+      "UpstreamPathTemplate": "/gateway/accounting/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "UseServiceDiscovery": true,
       "RouteIsCaseSensitive": false,

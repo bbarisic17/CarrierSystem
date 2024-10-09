@@ -29,11 +29,5 @@ namespace King.Carrier.TicketsApi.Controllers
         {
             return Ok();
         }
-
-        [HttpPost("b2bPayIn")]
-        public async Task<IActionResult> PayInTicketB2B()
-        {
-            return Ok();
-        }
     }
 }

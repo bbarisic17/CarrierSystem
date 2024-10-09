@@ -1,10 +1,10 @@
 ﻿using Consul;
-using King.Carrier.AccountingApplication.Integrations.Consul;
+using King.Carrier.TicketsApplication.Integrations.Consul;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-namespace King.Carrier.AccountingInfrastructure.Integrations.Consul;
+namespace King.Carrier.TicketsInfrastructure.Integrations.Consul;
 
 public static class DependencyInjection
 {

@@ -1,7 +1,7 @@
 ﻿using Consul;
 using Microsoft.Extensions.Hosting;
 
-namespace King.Carrier.TicketsInfrastructure.Consul;
+namespace King.Carrier.AccountingInfrastructure.Integrations.Consul;
 
 public class ConsulRegistrationHostedService : IHostedService
 {
@@ -10,16 +10,14 @@ public class ConsulRegistrationHostedService : IHostedService
 
     public ConsulRegistrationHostedService(IConsulClient consulClient)
     {
-        _consulClient=consulClient;
+        _consulClient = consulClient;
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        var serviceName = Environment.GetEnvironmentVariable("SERVICE_NAME") ?? "ticketsapi";
+        var serviceName = Environment.GetEnvironmentVariable("SERVICE_NAME") ?? "accountingapi";
         var servicePort = int.Parse(Environment.GetEnvironmentVariable("SERVICE_PORT") ?? "8080");
         var serviceAddress = Environment.GetEnvironmentVariable("SERVICE_ADDRESS") ?? "localhost";
-
-        var port = Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
 
         var registration = new AgentServiceRegistration()
         {
@@ -31,7 +29,7 @@ public class ConsulRegistrationHostedService : IHostedService
             {
                 DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(5),
                 Interval = TimeSpan.FromSeconds(15),
-                HTTP = $"http://{serviceAddress}:{servicePort}/api/weatherforecast/healthcheck",
+                HTTP = $"http://{serviceAddress}:{servicePort}/api/healthcheck/healthcheck",
                 Timeout = TimeSpan.FromSeconds(5)
             }
         };

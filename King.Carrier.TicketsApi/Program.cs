@@ -1,12 +1,9 @@
-using Consul;
 using King.Carrier.TicketsApplication;
 using King.Carrier.TicketsApplication.Integrations.RabbitMQ.Tickets;
-using King.Carrier.TicketsInfrastructure.Consul;
+using King.Carrier.TicketsInfrastructure;
+using King.Carrier.TicketsInfrastructure.Integrations.Consul;
 using King.Carrier.TicketsInfrastructure.Integrations.RabbitMQ;
 using King.Carrier.TicketsInfrastructure.Integrations.RabbitMQ.Tickets;
-using King.Carrier.TicketsInfrastructure.Persistence;
-using Serilog;
-using ZiggyCreatures.Caching.Fusion;
 
 namespace King.Carrier.TicketsApi
 {
@@ -19,55 +16,23 @@ namespace King.Carrier.TicketsApi
             builder.Configuration
                     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
-                    .AddEnvironmentVariables();  // Add environment variables
-
-            // Add services to the container.
+                    .AddEnvironmentVariables();
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddHttpContextAccessor();
-
-            builder.Host.UseSerilog((context, services, configuration) => configuration
-                .ReadFrom.Configuration(context.Configuration) // Read from appsettings.json
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .WriteTo.Seq("http://localhost:5341")// Add any other sinks here
-            );
-
-            //napravit da se ovo automatski registrira
-            //koristiti konfiguracije
-            builder.Services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
-            {
-                consulConfig.Address = new Uri("http://consul:8500");
-            }));
-
-            builder.Services.AddFusionCache()
-            .WithDefaultEntryOptions(new FusionCacheEntryOptions
-            {
-                Duration = TimeSpan.FromMinutes(2),
-                IsFailSafeEnabled = true,
-                FailSafeMaxDuration = TimeSpan.FromHours(1)
-            });
-
-            builder.Services.AddFusionCacheMemoryBackplane();
-            builder.Services.AddFusionCacheStackExchangeRedisBackplane(options =>
-            {
-                options.Configuration = "redis:6379";  // Redis connection string
-            });
 
             builder.Services.AddHostedService<ConsulRegistrationHostedService>();
             builder.Services.AddScoped<ITicketsPublisher, TicketPublisher>();
             builder.Services.AddScoped<RabbitMqSetupService>();
 
             builder.Services.AddApplication();
-            builder.Services.AddPersistence(builder.Configuration);
+            builder.Services.AddInfrastructure(builder.Configuration);
 
             var app = builder.Build();
             await app.MigrateDatabase();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

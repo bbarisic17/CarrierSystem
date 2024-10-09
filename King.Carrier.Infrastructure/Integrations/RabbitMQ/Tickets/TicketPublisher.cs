@@ -20,11 +20,6 @@ public class TicketPublisher : ITicketsPublisher
         var messageSerialized = JsonSerializer.Serialize(message);
         var body = Encoding.UTF8.GetBytes(messageSerialized);
 
-        //_channel.BasicPublish(exchange: "carrier_exchange",
-        //                      routingKey: "ticket",
-        //                      basicProperties: null,
-        //                      body: body);
-
         _rabbitMqSetupService.GetChannel().BasicPublish(exchange: "carrier_exchange",
                               routingKey: "ticket",
                               basicProperties: null,

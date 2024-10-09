@@ -37,7 +37,7 @@ public class TicketsApiConsumer : BackgroundService
                               arguments: null);
 
         _channel.ExchangeDeclare(exchange: _rabbitMQSettings.Value.CarrierExchangeName,
-                                 type: ExchangeType.Direct, // Change the type as needed (e.g., Fanout, Topic)
+                                 type: ExchangeType.Direct,
                                  durable: true);
 
         _channel.QueueBind(queue: _rabbitMQSettings.Value.TicketsQueueName,

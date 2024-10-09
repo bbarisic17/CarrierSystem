@@ -15,12 +15,9 @@ namespace King.Carrier.AccountingApi
             builder.Configuration
                     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
-                    .AddEnvironmentVariables();  // Add environment variables
-
-            // Add services to the container.
+                    .AddEnvironmentVariables();
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddHttpContextAccessor();
@@ -28,45 +25,11 @@ namespace King.Carrier.AccountingApi
             builder.Services.AddApplication();
             builder.Services.AddInfrastructure(builder.Configuration);
 
-            //builder.Host.UseSerilog((context, services, configuration) => configuration
-            //    .ReadFrom.Configuration(context.Configuration) // Read from appsettings.json
-            //    .Enrich.FromLogContext()
-            //    .WriteTo.Console()
-            //    .WriteTo.Seq("http://seq:5341")// Add any other sinks here
-            //);
-
-            //builder.Services.AddFusionCache()
-            //.WithDefaultEntryOptions(new FusionCacheEntryOptions
-            //{
-            //    Duration = TimeSpan.FromMinutes(2),
-            //    IsFailSafeEnabled = true,
-            //    FailSafeMaxDuration = TimeSpan.FromHours(1)
-            //});
-
-            //builder.Services.AddFusionCacheMemoryBackplane();
-            //builder.Services.AddFusionCacheStackExchangeRedisBackplane(options =>
-            //{
-            //    options.Configuration = "redis:6379";  // Redis connection string
-            //});
-
-            //napravit da se ovo automatski registrira
-            //koristiti konfiguracije
-            //builder.Services.AddSingleton<IConsulClient, ConsulClient>(p => new ConsulClient(consulConfig =>
-            //{
-            //    consulConfig.Address = new Uri("http://consul:8500");
-            //}));
-
-            //builder.Services.AddHostedService<ConsulRegistrationHostedService>();
-            //builder.Services.AddHostedService<TicketsApiConsumer>();
-
-            //builder.Services.AddPersistence(builder.Configuration);
-
             Log.Logger.Information("AccountingApi is starting...");
 
             var app = builder.Build();
             await app.MigrateDatabase();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
