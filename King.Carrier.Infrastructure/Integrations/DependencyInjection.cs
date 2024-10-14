@@ -1,9 +1,9 @@
 ﻿using King.Carrier.TicketsInfrastructure.Integrations.RabbitMQ;
 using King.Carrier.TicketsInfrastructure.Integrations.Consul;
-using King.Carrier.TicketsInfrastructure.Integrations.Redis;
 using King.Carrier.TicketsInfrastructure.Integrations.Serilog;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using King.Carrier.TicketsInfrastructure.Integrations.Caching.HybridCache;
 
 namespace King.Carrier.TicketsInfrastructure.Integrations;
 
@@ -14,8 +14,8 @@ public static class DependencyInjection
         services
             .AddSerilogIntegration(configuration)
             .AddRabbitMQIntegration()
-            .AddRedis(configuration)
-            .AddConsul(configuration);
+            .AddConsul(configuration)
+            .AddHybridCache(configuration);
 
         return services;
     }

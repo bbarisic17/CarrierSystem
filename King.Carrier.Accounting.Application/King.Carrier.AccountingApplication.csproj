@@ -16,4 +16,8 @@
     <ProjectReference Include="..\King.Carrier.AccountingDomain\King.Carrier.AccountingDomain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Integrations\Caching\HybridCache\" />
+  </ItemGroup>
+
 </Project>
